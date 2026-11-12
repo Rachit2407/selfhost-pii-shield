@@ -18,7 +18,6 @@ services:
     restart: unless-stopped
 
 networks:
-  # Set internal: true in air-gapped VPCs to enforce zero outbound internet egress at the Docker level.
+  # Default bridge exposes the local Web UI on localhost; set internal: true for headless VPC workers.
   airgap_internal:
     driver: bridge
-    internal: true
