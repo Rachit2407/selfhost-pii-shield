@@ -1,0 +1,10 @@
+Incident #4092 - Production Escalation Log
+Reported By: Aarav Sharma
+Email: aarav.sharma@acme-fintech.in
+Secondary Contact: aarav.sharma@acme-fintech.in
+Phone: +91-9876543210
+UPI ID: aarav.sharma@okicici
+PAN: ABCDE1234F
+Client IP: 203.0.113.42
+Leaked Token: Bearer sk-proj-99887766554433221100aabbcc
+Summary: User Aarav Sharma reported checkout failure when paying via aarav.sharma@okicici.

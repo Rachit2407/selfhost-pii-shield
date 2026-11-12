@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PII Shield — Self-Hosted Air-Gapped Anonymizer</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo-dot"></div>
+      <div>
+        <h1>PII Shield <span class="tag">Open-Core</span></h1>
+        <p class="subtitle">Local DB &amp; Document Anonymizer — Zero Outbound Network Calls</p>
+      </div>
+    </div>
+    <div class="status-pill" id="airgap-pill">Checking air-gap status...</div>
+  </header>
+
+  <main class="container">
+    <nav class="tabs" role="tablist">
+      <button class="tab active" data-tab="text-tab">Text &amp; LLM Prompt</button>
+      <button class="tab" data-tab="file-tab">Document Upload</button>
+      <button class="tab" data-tab="db-tab">Database FK Anonymizer</button>
+    </nav>
+
+    <!-- Tab 1: Text & Prompt Scrubber -->
+    <section id="text-tab" class="panel active">
+      <div class="controls-row">
+        <label>
+          Mode
+          <select id="text-mode">
+            <option value="synthetic">Synthetic (Deterministic Faker)</option>
+            <option value="redact">Redact ([ENTITY_TAG])</option>
+          </select>
+        </label>
+        <label class="grow">
+          Salt Override (optional)
+          <input id="text-salt" type="text" placeholder="Uses server PII_SHIELD_SALT if blank" />
+        </label>
+        <button id="btn-load-sample" class="btn secondary" type="button">Load Sample</button>
+        <button id="btn-scrub-text" class="btn primary" type="button">Scrub Locally</button>
+      </div>
+
+      <div class="split-grid">
+        <div class="card">
+          <div class="card-head">Raw Input (Never Leaves Container)</div>
+          <textarea id="raw-text" rows="12" placeholder="Paste customer logs, support tickets, or LLM prompts containing emails, PAN, Aadhaar, UPI, phones, or API keys..."></textarea>
+        </div>
+        <div class="card">
+          <div class="card-head">
+            <span>Sanitized Output</span>
+            <button id="btn-copy-text" class="btn small secondary" type="button">Copy</button>
+          </div>
+          <textarea id="scrubbed-text" rows="12" readonly placeholder="Sanitized text appears here..."></textarea>
+        </div>
+      </div>
+
+      <div class="metrics-bar" id="text-metrics"></div>
+    </section>
+
+    <!-- Tab 2: Document Upload -->
+    <section id="file-tab" class="panel">
+      <div class="controls-row">
+        <label class="grow">
+          Document (.txt, .md, .csv, .json, .jsonl, .sql, .pdf)
+          <input id="file-input" type="file" accept=".txt,.md,.csv,.json,.jsonl,.ndjson,.sql,.pdf" />
+        </label>
+        <label>
+          Mode
+          <select id="file-mode">
+            <option value="synthetic">Synthetic</option>
+            <option value="redact">Redact</option>
+          </select>
+        </label>
+        <button id="btn-scrub-file" class="btn primary" type="button">Scrub Document</button>
+        <button id="btn-download-file" class="btn secondary" type="button" disabled>Download Output</button>
+      </div>
+      <div class="metrics-bar" id="file-metrics"></div>
+      <div class="card">
+        <div class="card-head">Scrubbed Preview</div>
+        <textarea id="file-output" rows="14" readonly placeholder="Upload a file and click Scrub Document..."></textarea>
+      </div>
+    </section>
+
+    <!-- Tab 3: Relational Database Anonymizer -->
+    <section id="db-tab" class="panel">
+      <div class="controls-row">
+        <label class="grow">
+          Source DSN (Read-Only)
+          <input id="db-source" type="text" value="sqlite:///samples/sample_prod.sqlite" />
+        </label>
+        <label class="grow">
+          Target DSN (Clean Staging Output)
+          <input id="db-target" type="text" value="sqlite:///samples/sample_staging.sqlite" />
+        </label>
+        <label>
+          Mode
+          <select id="db-mode">
+            <option value="synthetic">Synthetic</option>
+            <option value="redact">Redact</option>
+          </select>
+        </label>
+      </div>
+      <div class="controls-row">
+        <button id="btn-inspect-db" class="btn secondary" type="button">1. Inspect FK Graph &amp; Rules</button>
+        <button id="btn-anonymize-db" class="btn primary" type="button">2. Run FK-Safe Anonymization</button>
+      </div>
+      <div class="card">
+        <div class="card-head">Database Inspection &amp; Anonymization Report</div>
+        <pre id="db-report" class="json-view">Click "Inspect FK Graph &amp; Rules" to preview topological table order, FK equivalence groups, and auto-detected PII columns.</pre>
+      </div>
+    </section>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

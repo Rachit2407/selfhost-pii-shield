@@ -1,0 +1,24 @@
+services:
+  pii-shield:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: selfhost-pii-shield
+    ports:
+      - "8080:8080"
+    environment:
+      PII_SHIELD_SALT: ${PII_SHIELD_SALT:-change-me-to-a-32-byte-secret-salt}
+      PII_SHIELD_MODE: ${PII_SHIELD_MODE:-synthetic}
+      PII_SHIELD_AIRGAP_STRICT: "true"
+      PII_SHIELD_LOCALE: ${PII_SHIELD_LOCALE:-en_IN}
+    volumes:
+      - ./samples:/app/samples
+    networks:
+      - airgap_internal
+    restart: unless-stopped
+
+networks:
+  # Set internal: true in air-gapped VPCs to enforce zero outbound internet egress at the Docker level.
+  airgap_internal:
+    driver: bridge
+    internal: true
