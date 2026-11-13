@@ -117,6 +117,39 @@ pii-shield inspect-db sqlite:///samples/sample_prod.sqlite
 pii-shield scrub-db sqlite:///samples/sample_prod.sqlite sqlite:///samples/sample_staging.sqlite
 ```
 
+### CLI Terminal Output Example
+
+```json
+$ pii-shield inspect-db sqlite:///samples/sample_prod.sqlite
+{
+  "dialect": "sqlite",
+  "topological_order": ["users", "orders", "support_tickets"],
+  "fk_equivalence_groups": {
+    "orders.customer_email": [
+      "orders.customer_email",
+      "support_tickets.reporter_email",
+      "users.email"
+    ]
+  }
+}
+
+$ pii-shield scrub-db sqlite:///samples/sample_prod.sqlite sqlite:///samples/sample_staging.sqlite
+{
+  "source_dialect": "sqlite",
+  "target_dialect": "sqlite",
+  "mode": "synthetic",
+  "tables_processed": ["users", "orders", "support_tickets"],
+  "rows_copied": { "users": 2, "orders": 2, "support_tickets": 2 },
+  "fk_groups_preserved": 3
+}
+```
+
+---
+
+## Contributing
+
+We welcome contributions! Please read our [Contributing Guide](CONTRIBUTING.md) to learn how to add new national PII recognizers, write tests, and maintain our strict air-gap invariant.
+
 ---
 
 ## REST API Endpoints

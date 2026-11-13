@@ -1,0 +1,36 @@
+name: Feature request
+description: Suggest an idea or new recognizer for PII Shield
+title: "[FEATURE] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for suggesting an idea! PII Shield prioritizes air-gapped performance, custom PII recognizers, and relational database integrity.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Feature Area
+      description: Which part of the system does this improve?
+      options:
+        - New Entity Recognizer (e.g. Country-specific tax/national ID)
+        - Database Connector (PostgreSQL, MySQL, SQLite, etc.)
+        - Document / Stream Format (Parquet, XLSX, Avro, etc.)
+        - CLI / Developer Experience
+        - Web UI
+        - Enterprise Seam (RBAC, SSO, Audit Logs)
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Feature Description
+      description: A clear and concise description of what you'd like to see happen.
+      placeholder: Describe the problem and proposed solution...
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Have you considered any alternative solutions or workarounds?

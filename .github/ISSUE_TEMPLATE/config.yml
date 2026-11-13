@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: GitHub Discussions / Community
+    url: https://github.com/Rachit2407/selfhost-pii-shield/discussions
+    about: Ask questions, share architectures, and discuss roadmap ideas.
